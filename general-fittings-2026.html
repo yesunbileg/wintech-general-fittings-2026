@@ -212,19 +212,23 @@
      /* === COVER SLIDE === */
      .cover .red-field {
        right:0; top:0; width:670px; height:100%; background:var(--red);
-       clip-path:polygon(21% 0,100% 0,100% 100%,0 100%); z-index:0;
+       clip-path:polygon(21% 0,100% 0,100% 100%,0 100%); z-index:1;
+     }
+     .cover .atmosphere {
+       left:0; top:0; width:100%; height:100%; object-fit:cover; opacity:.38;
+       filter:saturate(1.12) contrast(1.06); mix-blend-mode:multiply; z-index:0;
      }
      .cover .brand-mark { top:58px; }
      .cover h1 {
-       left:84px; top:300px; width:940px; color:var(--ink);
+       left:84px; top:300px; width:940px; color:#f7f7f4;
        font:800 150px/.84 var(--font-display); letter-spacing:-6px; z-index:2;
      }
      .cover .subtitle {
-       left:90px; bottom:186px; width:720px; color:var(--ink);
+       left:90px; bottom:186px; width:720px; color:#f7f7f4;
        font:700 26px/1.26 var(--font-body); z-index:2;
      }
      .cover .meta {
-       left:90px; bottom:96px; color:var(--muted);
+       left:90px; bottom:96px; color:rgba(247,247,244,.72);
        font:600 18px/1.45 var(--font-body); z-index:2;
      }
      .cover .hero-image {
@@ -273,7 +277,12 @@
      /* === SECTION DIVIDER === */
      .section-slide .red-field {
        right:0; top:0; width:670px; height:100%; background:var(--red);
-       clip-path:polygon(31% 0,100% 0,100% 100%,0 100%); z-index:0;
+       clip-path:polygon(31% 0,100% 0,100% 100%,0 100%); z-index:1;
+     }
+     .section-slide .atmosphere {
+       right:0; top:0; width:1160px; height:100%; object-fit:cover; opacity:.34;
+       filter:saturate(1.05) contrast(1.04); mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.68) 22%, #000 58%);
+       z-index:0;
      }
      .section-slide .section-id {
        left:90px; top:252px; color:var(--red); font:800 150px/.8 var(--font-display);
@@ -306,6 +315,11 @@
      .catalog-slide .topline {
        left:84px; right:84px; top:177px; height:1px; background:var(--rule); z-index:2;
      }
+     .catalog-slide .atmosphere {
+       right:0; top:0; width:760px; height:330px; object-fit:cover; opacity:.13;
+       filter:saturate(1.1) contrast(1.05); mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 38%, #000 100%);
+       z-index:1;
+     }
     .catalog-slide h2 {
       left:84px; top:205px; width:1210px; max-height:92px; color:var(--ink);
       font:800 46px/.95 var(--font-display); letter-spacing:-1px; z-index:2;
@@ -335,6 +349,10 @@
      .catalog-table tbody tr { height:40px; }
     .catalog-table td.no { color:var(--red); font-weight:800; font-family:var(--font-display); font-size:20px; white-space:nowrap; }
      .catalog-table td.product { font-weight:700; }
+     .catalog-table .product-cell { display:flex; align-items:center; gap:9px; min-width:0; }
+     .catalog-table .row-product-media { flex:0 0 32px; width:32px; height:32px; padding:3px; border:1px solid rgba(16,18,20,.14); background:#fff; display:flex; align-items:center; justify-content:center; }
+     .catalog-table .row-product-media img { width:100%; height:100%; object-fit:contain; }
+     .catalog-table .product-cell > span:last-child { min-width:0; }
      .catalog-table td.code { font-family:var(--font-body); letter-spacing:.2px; font-size:15px; }
      .catalog-table td.size { color:#33383b; }
      .catalog-table td.price { text-align:right; white-space:nowrap; font-weight:800; font-size:17px; }
@@ -372,6 +390,17 @@
      .edit-banner { position:fixed; top:14px; left:72px; opacity:0; pointer-events:none; z-index:10001; color:#fff; background:rgba(16,18,20,.9); padding:10px 14px; border-left:4px solid var(--red); font:600 14px/1 var(--font-body); transition:opacity .25s ease; }
      .edit-banner.active { opacity:1; }
      [contenteditable="true"] { outline:2px dashed rgba(236,47,36,.72); outline-offset:4px; cursor:text; }
+
+     /* === SOUND CONTROL === */
+     .audio-controls {
+       position:fixed; right:18px; bottom:18px; z-index:1000; display:flex; align-items:center; gap:10px;
+       min-width:198px; height:36px; padding:0 12px; color:#dce1e3; background:rgba(16,18,20,.84);
+       border:1px solid rgba(255,255,255,.15); font:700 12px/1 var(--font-body); letter-spacing:1px;
+       backdrop-filter:blur(10px);
+     }
+     .audio-controls button { border:0; padding:0; color:#fff; background:transparent; cursor:pointer; font:800 12px/1 var(--font-body); letter-spacing:1px; }
+     .audio-controls button:hover { color:#ffb3ad; }
+     .audio-status { color:#9fa8ad; white-space:nowrap; }
    </style>
  </head>
  <body>
@@ -388,6 +417,10 @@
    <div class="edit-hotzone" aria-label="Open edit mode"></div>
    <button class="edit-toggle" id="editToggle" title="Edit mode (E)" aria-label="Toggle edit mode">✎</button>
    <div class="edit-banner" id="editBanner">EDIT MODE · click any text · Ctrl+S to save copy</div>
+   <div class="audio-controls" id="audioControls" aria-label="Sound controls">
+     <button id="audioToggle" type="button" title="Toggle sound (M)">SOUND OFF</button>
+     <span class="audio-status" id="audioStatus">MUSIC READY</span>
+   </div>
  
    <script>
      /* === SOURCE DATA === */
@@ -407,6 +440,15 @@
      }
      function assetPath(name) {
        return "assets/source-media/" + name;
+     }
+     function aiAssetPath(name) {
+       return "assets/ai-media/" + name;
+     }
+     function productCell(item) {
+       const media = item.asset
+         ? '<span class="row-product-media"><img src="' + assetPath(item.asset) + '" alt="" /></span>'
+         : '';
+       return '<span class="product-cell">' + media + '<span>' + editable("product-" + item.no + "-category", item.category) + '</span></span>';
      }
      function editable(id, content, className) {
        return '<span data-editable="' + escapeHTML(id) + '"' + (className ? ' class="' + className + '"' : '') + '>' + escapeHTML(content) + '</span>';
@@ -435,6 +477,7 @@
      /* === COVER === */
      addSlide("cover", 
        '<div class="red-field"></div>' +
+       '<img class="atmosphere reveal" src="' + aiAssetPath("cover-flow.png") + '" alt="" />' +
        brandMark() +
        '<div class="eyebrow reveal">' + editable("cover-eyebrow","ҮНИЙН САНАЛ · 2026 / 2") + '</div>' +
        '<div class="red-rule reveal"></div>' +
@@ -475,8 +518,9 @@
      function sectionDivider(section) {
        const items = sectionProducts(section);
        usedAssets.add(section.hero);
-       return addSlide("section-slide",
+       const slide = addSlide("section-slide",
          '<div class="red-field"></div>' +
+         '<img class="atmosphere reveal" src="' + aiAssetPath(({"01":"fittings-flow.png","02":"heating-manifold.png","03":"pex-pipes.png","04":"tools-workshop.png"}[section.id])) + '" alt="" />' +
          brandMark() +
          '<div class="eyebrow reveal">' + editable("section-" + section.id + "-eyebrow","БҮЛЭГ " + section.id) + '</div>' +
          '<div class="section-id reveal">' + section.id + '</div>' +
@@ -487,29 +531,31 @@
          '<div class="rail">GENERAL FITTINGS · 2026</div>' +
          pageMark()
        );
+       slide.dataset.sectionId = section.id;
+       return slide;
      }
      function tableSlide(section, items, chunkIndex) {
        const title = items[0].category === items[items.length-1].category ? items[0].category : items[0].category + " — " + items[items.length-1].category;
        const thumbs = [];
        items.forEach(function(item) {
-         if (item.asset && !usedAssets.has(item.asset) && thumbs.length < 4) {
-           usedAssets.add(item.asset);
+         if (item.asset && thumbs.length < 4) {
            thumbs.push('<div class="thumb"><img src="' + assetPath(item.asset) + '" alt="' + escapeHTML(item.category) + '" /></div>');
          }
        });
        const rows = items.map(function(item, i) {
          return '<tr class="reveal-row" style="--delay:' + (i * 30) + 'ms">' +
            '<td class="no">' + editable("product-" + item.no + "-no", String(item.no)) + '</td>' +
-           '<td class="product">' + editable("product-" + item.no + "-category", item.category) + '</td>' +
+           '<td class="product">' + productCell(item) + '</td>' +
            '<td class="code">' + editable("product-" + item.no + "-code", item.code) + '</td>' +
            '<td class="size">' + editable("product-" + item.no + "-size", item.size) + '</td>' +
            '<td class="price">' + editable("product-" + item.no + "-priceA", item.priceA ? money(item.priceA).replace(/<[^>]+>/g,"") : "—") + '</td>' +
            '<td class="price">' + editable("product-" + item.no + "-priceB", item.priceB ? money(item.priceB).replace(/<[^>]+>/g,"") : "—") + '</td>' +
          '</tr>';
        }).join("");
-       return addSlide("catalog-slide",
+       const slide = addSlide("catalog-slide",
          brandMark() +
          '<div class="eyebrow reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-eyebrow", "БҮЛЭГ " + section.id + " · GENERAL FITTINGS") + '</div>' +
+         '<img class="atmosphere" src="' + aiAssetPath(({"01":"fittings-flow.png","02":"heating-manifold.png","03":"pex-pipes.png","04":"tools-workshop.png"}[section.id])) + '" alt="" />' +
          '<div class="topline"></div>' +
          '<h2 class="reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-title", title) + '</h2>' +
          '<div class="range reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-range", "Бүтээгдэхүүн № " + items[0].no + " — " + items[items.length-1].no) + '</div>' +
@@ -518,6 +564,8 @@
          '<div class="footer-note">' + editable("catalog-" + section.id + "-" + chunkIndex + "-footer", "ВИНТЕХ ХХК · Албан ёсны борлуулагч") + '</div>' +
          pageMark()
        );
+       slide.dataset.sectionId = section.id;
+       return slide;
      }
      CONTEXT.sections.forEach(function(section) {
        sectionDivider(section);
@@ -612,11 +660,161 @@
          });
          document.getElementById("slideCounter").textContent = pageText(this.currentSlide + 1, this.slides.length);
          document.getElementById("progressFill").style.width = ((this.currentSlide + 1) / this.slides.length * 100) + "%";
+         if (window.audioDirector) window.audioDirector.onSlideChange(this.currentSlide);
        }
        next() { this.showSlide(this.currentSlide + 1); }
        prev() { this.showSlide(this.currentSlide - 1); }
      }
- 
+
+     /* === SOUND DESIGN === */
+     const SOUND_PROFILES = {
+       cover:    { a:78,  b:117, type:"sine",     filter:520 },
+       overview: { a:86,  b:129, type:"sine",     filter:560 },
+       "01":     { a:132, b:198, type:"triangle", filter:980 },
+       "02":     { a:88,  b:132, type:"sine",     filter:640 },
+       "03":     { a:174, b:261, type:"sine",     filter:760 },
+       "04":     { a:62,  b:93,  type:"sawtooth", filter:390 },
+       contact:  { a:72,  b:108, type:"triangle", filter:460 }
+     };
+     const TRANSITION_SOUNDS = {
+       cover:"assets/audio/transition-cinematic.mp3",
+       overview:"assets/audio/transition-sweep.mp3",
+       "01":"assets/audio/transition-cinematic.mp3",
+       "02":"assets/audio/transition-fast.mp3",
+       "03":"assets/audio/transition-sweep.mp3",
+       "04":"assets/audio/transition-impact.mp3",
+       contact:"assets/audio/transition-cinematic.mp3"
+     };
+     class AudioDirector {
+       constructor() {
+         this.enabled = false;
+         this.ctx = null;
+         this.master = null;
+         this.ambientSources = [];
+         this.activeSection = "";
+         this.lastSlide = -1;
+         this.toggle = document.getElementById("audioToggle");
+         this.status = document.getElementById("audioStatus");
+         this.toggle.addEventListener("click", () => this.toggleSound());
+         document.addEventListener("keydown", (event) => {
+           if ((event.key === "m" || event.key === "M") && !(event.target && event.target.getAttribute && event.target.getAttribute("contenteditable"))) {
+             event.preventDefault();
+             this.toggleSound();
+           }
+         });
+       }
+       getSection(index) {
+         const slide = slides[index];
+         if (!slide) return "cover";
+         return slide.dataset.sectionId || (slide.classList.contains("overview") ? "overview" : slide.classList.contains("contact") ? "contact" : "cover");
+       }
+       ensureContext() {
+         const AudioContext = window.AudioContext || window.webkitAudioContext;
+         if (!AudioContext) {
+           this.status.textContent = "AUDIO UNSUPPORTED";
+           return false;
+         }
+         if (!this.ctx) {
+           this.ctx = new AudioContext();
+           this.master = this.ctx.createGain();
+           this.master.gain.value = .22;
+           this.master.connect(this.ctx.destination);
+         }
+         if (this.ctx.state === "suspended") this.ctx.resume();
+         return true;
+       }
+       toggleSound() {
+         if (this.enabled) this.disable();
+         else this.enable();
+       }
+       enable() {
+         if (!this.ensureContext()) return;
+         this.enabled = true;
+         this.toggle.textContent = "SOUND ON";
+         this.status.textContent = "MUSIC LIVE · M OFF";
+         const current = window.presentation ? window.presentation.currentSlide : 0;
+         this.syncAmbient(current);
+         this.lastSlide = current;
+       }
+       disable() {
+         this.enabled = false;
+         this.stopAmbient();
+         this.toggle.textContent = "SOUND OFF";
+         this.status.textContent = "MUSIC READY";
+       }
+       makeNoiseBuffer() {
+         const length = this.ctx.sampleRate * 2;
+         const buffer = this.ctx.createBuffer(1, length, this.ctx.sampleRate);
+         const data = buffer.getChannelData(0);
+         for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * .55;
+         return buffer;
+       }
+       addOscillator(bus, profile, frequency, type, volume, detune) {
+         const source = this.ctx.createOscillator();
+         const gain = this.ctx.createGain();
+         source.type = type;
+         source.frequency.value = frequency;
+         source.detune.value = detune || 0;
+         gain.gain.value = volume;
+         source.connect(gain);
+         gain.connect(bus);
+         source.start();
+         this.ambientSources.push({source, gain});
+       }
+       syncAmbient(index) {
+         if (!this.enabled || !this.ensureContext()) return;
+         const section = this.getSection(index);
+         if (section === this.activeSection) return;
+         this.stopAmbient();
+         const profile = SOUND_PROFILES[section] || SOUND_PROFILES.cover;
+         const bus = this.ctx.createGain();
+         const filter = this.ctx.createBiquadFilter();
+         bus.gain.value = .72;
+         filter.type = "lowpass";
+         filter.frequency.value = profile.filter;
+         filter.Q.value = .55;
+         bus.connect(filter);
+         filter.connect(this.master);
+         this.addOscillator(bus, profile, profile.a, profile.type, .020, -3);
+         this.addOscillator(bus, profile, profile.b, "sine", .012, 4);
+         const noise = this.ctx.createBufferSource();
+         const noiseGain = this.ctx.createGain();
+         noise.buffer = this.makeNoiseBuffer();
+         noise.loop = true;
+         noiseGain.gain.value = section === "04" ? .004 : .007;
+         noise.connect(noiseGain);
+         noiseGain.connect(filter);
+         noise.start();
+         this.ambientSources.push({source:noise, gain:noiseGain});
+         this.activeSection = section;
+       }
+       stopAmbient() {
+         const oldSources = this.ambientSources;
+         this.ambientSources = [];
+         this.activeSection = "";
+         oldSources.forEach(({source, gain}) => {
+           try {
+             gain.gain.cancelScheduledValues(this.ctx.currentTime);
+             gain.gain.setTargetAtTime(0, this.ctx.currentTime, .16);
+             window.setTimeout(() => { try { source.stop(); source.disconnect(); } catch (error) {} }, 520);
+           } catch (error) {}
+         });
+       }
+       playTransition(index) {
+         if (!this.enabled) return;
+         const section = this.getSection(index);
+         const player = new Audio(TRANSITION_SOUNDS[section] || TRANSITION_SOUNDS.cover);
+         player.volume = .18;
+         player.play().catch(() => {});
+       }
+       onSlideChange(index) {
+         if (!this.enabled) return;
+         if (this.lastSlide !== -1 && this.lastSlide !== index) this.playTransition(index);
+         this.syncAmbient(index);
+         this.lastSlide = index;
+       }
+     }
+
      /* === INLINE EDITOR === */
      class InlineEditor {
        constructor() {
@@ -672,6 +870,7 @@
      }
  
      /* === BOOT === */
+     window.audioDirector = new AudioDirector();
      window.presentation = new SlidePresentation();
      window.editor = new InlineEditor();
    </script>
