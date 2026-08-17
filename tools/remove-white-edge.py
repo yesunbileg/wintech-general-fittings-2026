@@ -6,6 +6,7 @@ from collections import deque
 from pathlib import Path
 
 from PIL import Image
+from PIL import ImageFilter
 
 
 def near_white(pixel, threshold, chroma):
@@ -41,11 +42,20 @@ def edge_background(image, threshold, chroma):
     return mask
 
 
-def remove_white_edge(source, target, threshold, chroma):
+def expand_mask(mask, width, height, radius):
+    if radius <= 0:
+        return mask
+    binary = Image.frombytes("L", (width, height), bytes(value * 255 for value in mask))
+    expanded = binary.filter(ImageFilter.MaxFilter(radius * 2 + 1))
+    return bytearray(1 if value else 0 for value in expanded.tobytes())
+
+
+def remove_white_edge(source, target, threshold, chroma, halo):
     image = Image.open(source).convert("RGBA")
-    mask = edge_background(image, threshold, chroma)
-    pixels = image.load()
     width, height = image.size
+    mask = edge_background(image, threshold, chroma)
+    mask = expand_mask(mask, width, height, halo)
+    pixels = image.load()
     removed = 0
     for index, is_background in enumerate(mask):
         if is_background:
@@ -64,8 +74,9 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--threshold", type=int, default=235)
     parser.add_argument("--chroma", type=int, default=30)
+    parser.add_argument("--halo", type=int, default=3, help="extra edge pixels to clear")
     args = parser.parse_args()
-    removed = remove_white_edge(args.input, args.output, args.threshold, args.chroma)
+    removed = remove_white_edge(args.input, args.output, args.threshold, args.chroma, args.halo)
     print(f"{args.input} -> {args.output} ({removed} edge pixels removed)")
 
 
