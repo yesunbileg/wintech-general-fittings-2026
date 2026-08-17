@@ -318,55 +318,87 @@
        letter-spacing:3px; z-index:2;
      }
  
-     /* === CATALOG TABLE SLIDES === */
-     .catalog-slide .topline {
-       left:84px; right:84px; top:177px; height:1px; background:var(--rule); z-index:2;
+     /* === CARD CATALOG SLIDES === */
+     .card-catalog-slide { background:#fff; color:var(--ink); }
+     .card-catalog-slide .card-brand {
+       left:0; top:0; width:340px; height:128px; display:flex; align-items:center; justify-content:flex-start; padding-left:56px;
+       background:linear-gradient(90deg,var(--ink) 0 calc(100% - 9px),var(--red) calc(100% - 9px));
+       clip-path:polygon(0 0,100% 0,100% 70%,84% 100%,0 100%); z-index:3;
      }
-     .catalog-slide .atmosphere {
-       right:0; top:0; width:760px; height:330px; object-fit:cover; opacity:.13;
-       filter:saturate(1.1) contrast(1.05); mask-image:linear-gradient(90deg, transparent 0%, rgba(0,0,0,.55) 38%, #000 100%);
-       z-index:1;
+     .card-catalog-slide .card-brand img { width:245px; height:auto; object-fit:contain; }
+     .card-catalog-slide .card-header-rule { left:64px; right:64px; top:386px; height:1px; background:var(--rule); z-index:2; }
+     .card-catalog-slide .card-eyebrow {
+       left:390px; top:62px; color:var(--red); font:800 18px/1 var(--font-body); letter-spacing:2px; z-index:2;
      }
-    .catalog-slide h2 {
-      left:84px; top:205px; width:1210px; max-height:92px; color:var(--ink);
-      font:800 46px/.95 var(--font-display); letter-spacing:-1px; z-index:2;
+     .card-catalog-slide .card-title {
+       left:64px; top:164px; width:1000px; color:var(--ink); font:800 72px/.92 var(--font-display);
+       letter-spacing:-2.8px; z-index:2;
      }
-     .catalog-slide .range {
-      left:86px; top:304px; color:var(--muted); font:700 17px/1 var(--font-body);
-       letter-spacing:1.2px; z-index:2;
+     .card-catalog-slide .card-subtitle {
+       left:70px; top:274px; color:#3f4548; font:600 32px/1.2 var(--font-body); z-index:2;
      }
-     .catalog-slide .thumb-strip {
-       right:84px; top:202px; height:84px; display:flex; gap:10px; z-index:2;
+     .card-catalog-slide .card-range {
+       left:70px; top:330px; color:var(--muted); font:700 20px/1 var(--font-body); letter-spacing:1px; z-index:2;
      }
-     .catalog-slide .thumb {
-       width:96px; height:76px; padding:8px; background:#fff; border:1px solid var(--rule);
-       display:flex; align-items:center; justify-content:center;
+     .card-catalog-slide .value-rail {
+       right:64px; top:164px; width:700px; height:154px; display:grid; grid-template-columns:repeat(4,1fr); z-index:2;
      }
-     .catalog-slide .thumb img { width:100%; height:100%; object-fit:contain; }
-     .catalog-slide .table-wrap {
-      left:84px; right:84px; top:344px; height:614px; overflow:hidden; border:1px solid rgba(16,18,20,.18);
-       background:rgba(255,255,255,.5); z-index:2;
+     .card-catalog-slide .value-item {
+       display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+       border-left:1px solid var(--rule); color:var(--ink); text-align:center; font:700 16px/1.18 var(--font-body);
      }
-     .catalog-table { width:100%; border-collapse:collapse; table-layout:fixed; color:var(--ink); font:600 16px/1.15 var(--font-body); }
-     .catalog-table col.no { width:65px; }.catalog-table col.product { width:300px; }.catalog-table col.code { width:300px; }.catalog-table col.size { width:auto; }.catalog-table col.price { width:240px; }
-     .catalog-table thead { background:var(--ink); color:#fff; }
-     .catalog-table th { padding:13px 14px; text-align:left; font:700 15px/1.1 var(--font-body); letter-spacing:.3px; }
-     .catalog-table td { padding:10px 14px; border-bottom:1px solid rgba(16,18,20,.11); vertical-align:middle; overflow-wrap:anywhere; }
-     .catalog-table tbody tr:nth-child(even) { background:rgba(16,18,20,.035); }
-     .catalog-table tbody tr { height:40px; }
-    .catalog-table td.no { color:var(--red); font-weight:800; font-family:var(--font-display); font-size:20px; white-space:nowrap; }
-     .catalog-table td.product { font-weight:700; }
-     .catalog-table .product-cell { display:flex; align-items:center; gap:9px; min-width:0; }
-     .catalog-table .row-product-media { flex:0 0 32px; width:32px; height:32px; padding:3px; border:1px solid rgba(16,18,20,.14); background:#fff; display:flex; align-items:center; justify-content:center; }
-     .catalog-table .row-product-media img { width:100%; height:100%; object-fit:contain; }
-     .catalog-table .product-cell > span:last-child { min-width:0; }
-     .catalog-table td.code { font-family:var(--font-body); letter-spacing:.2px; font-size:15px; }
-     .catalog-table td.size { color:#33383b; }
-     .catalog-table td.price { text-align:right; white-space:nowrap; font-weight:800; font-size:17px; }
-     .catalog-table td.price:last-child { color:var(--red); }
-     .catalog-table .dash { color:#9b9fa2; font-weight:600; }
-     .catalog-table .reveal-row { opacity:0; transform:translateY(10px); transition:opacity .45s var(--ease-out-expo), transform .45s var(--ease-out-expo); transition-delay:var(--delay); }
-    .catalog-slide.visible .reveal-row, .catalog-slide.active .reveal-row { opacity:1; transform:translateY(0); }
+     .card-catalog-slide .value-item:first-child { border-left:0; }
+     .card-catalog-slide .value-icon {
+       display:grid; width:56px; height:56px; place-items:center; border:2px solid rgba(16,18,20,.16); border-radius:50%;
+       font:800 26px/1 var(--font-display);
+     }
+     .card-catalog-slide .card-grid {
+       left:64px; right:64px; top:414px; bottom:70px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr;
+       gap:22px 28px; z-index:2;
+     }
+     .card-catalog-slide .card-grid-divider { left:64px; right:64px; top:386px; height:1px; background:var(--rule); z-index:2; }
+     .card-catalog-slide .product-card {
+       position:relative; overflow:hidden; border:1px solid rgba(16,18,20,.16); border-left:6px solid var(--red);
+       border-radius:16px; background:#fff; box-shadow:0 14px 28px rgba(16,18,20,.11);
+     }
+     .card-catalog-slide .product-card-header {
+       position:absolute; left:20px; right:18px; top:16px; height:38px; display:flex; align-items:center; gap:12px; z-index:2;
+     }
+     .card-catalog-slide .product-card-number {
+       display:grid; width:46px; height:34px; place-items:center; border-radius:7px; background:var(--red); color:#fff;
+       font:800 18px/1 var(--font-display);
+     }
+     .card-catalog-slide .product-card-title {
+       overflow:hidden; color:var(--ink); font:800 21px/1 var(--font-display); letter-spacing:-.4px; text-overflow:ellipsis; white-space:nowrap;
+     }
+     .card-catalog-slide .product-card-media {
+       position:absolute; left:20px; top:66px; bottom:18px; width:37%; display:flex; align-items:center; justify-content:center;
+       overflow:hidden; border:1px solid rgba(16,18,20,.08); border-radius:12px; background:#fbfbfa;
+     }
+     .card-catalog-slide .product-card-media img { width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; }
+     .card-catalog-slide .product-card-table {
+       position:absolute; left:39.5%; right:18px; top:66px; bottom:18px; overflow:hidden; border:1px solid rgba(16,18,20,.12); border-radius:10px;
+       background:#fff; font:600 14px/1.1 var(--font-body);
+     }
+     .card-catalog-slide .product-card-table .table-row {
+       display:grid; grid-template-columns:68px minmax(0,1.25fr) 120px 132px; min-height:35px; align-items:center;
+       border-top:1px solid rgba(16,18,20,.1);
+     }
+     .card-catalog-slide .product-card-table .table-row:first-child { border-top:0; background:var(--ink); color:#fff; font-weight:800; }
+     .card-catalog-slide .product-card-table .table-row:nth-child(odd):not(:first-child) { background:rgba(20,135,201,.06); }
+     .card-catalog-slide .product-card-table span { overflow:hidden; padding:0 9px; text-overflow:ellipsis; white-space:nowrap; }
+     .card-catalog-slide .product-card-table span:first-child { color:var(--red); font:800 16px/1 var(--font-display); }
+     .card-catalog-slide .product-card-table .table-row > span:first-child { overflow:visible; text-overflow:clip; }
+     .card-catalog-slide .product-card-table .table-row:first-child span:first-child { color:#fff; }
+     .card-catalog-slide .product-card-table span:last-child { color:var(--red); font-weight:800; text-align:right; }
+     .card-catalog-slide .product-card-table .table-row:first-child span:last-child { color:#fff; }
+     .card-catalog-slide .product-card-more {
+       position:absolute; right:26px; bottom:24px; color:var(--muted); font:700 12px/1 var(--font-body); letter-spacing:.4px; z-index:4;
+     }
+     .card-catalog-slide .card-footer {
+       left:64px; bottom:32px; color:var(--muted); font:600 16px/1 var(--font-body); letter-spacing:.7px; z-index:3;
+     }
+     .card-catalog-slide .card-page { right:84px; bottom:32px; color:var(--ink); font:700 16px/1 var(--font-body); letter-spacing:1px; z-index:3; }
  
      /* === CONTACT / CLOSING === */
      .contact { background:var(--ink); color:#fff; }
@@ -456,6 +488,9 @@
      };
      function heroAssetPath(name) {
        return heroAssetOverrides[name] || assetPath(name);
+     }
+     function catalogAssetPath(name) {
+       return heroAssetOverrides[name] ? heroAssetPath(name) : assetPath(name);
      }
      function aiAssetPath(name) {
        return "assets/ai-media/" + name;
@@ -549,34 +584,76 @@
        slide.dataset.sectionId = section.id;
        return slide;
      }
-     function tableSlide(section, items, chunkIndex) {
-       const title = items[0].category === items[items.length-1].category ? items[0].category : items[0].category + " — " + items[items.length-1].category;
-       const thumbs = [];
+     function imageGroups(section) {
+       const items = sectionProducts(section);
+       const groups = [];
+       let pending = [];
+       let current = null;
        items.forEach(function(item) {
-         if (item.asset && thumbs.length < 4) {
-           thumbs.push('<div class="thumb"><img src="' + assetPath(item.asset) + '" alt="' + escapeHTML(item.category) + '" /></div>');
+         if (item.asset) {
+           current = { asset:item.asset, items:pending };
+           groups.push(current);
+           pending = [];
+           current.items.push(item);
+         } else if (current) {
+           current.items.push(item);
+         } else {
+           pending.push(item);
          }
        });
-       const rows = items.map(function(item, i) {
-         return '<tr class="reveal-row" style="--delay:' + (i * 30) + 'ms">' +
-           '<td class="no">' + editable("product-" + item.no + "-no", String(item.no)) + '</td>' +
-           '<td class="product">' + productCell(item) + '</td>' +
-           '<td class="code">' + editable("product-" + item.no + "-code", item.code) + '</td>' +
-           '<td class="size">' + editable("product-" + item.no + "-size", item.size) + '</td>' +
-           '<td class="price">' + editable("product-" + item.no + "-priceA", item.priceA ? money(item.priceA).replace(/<[^>]+>/g,"") : "—") + '</td>' +
-           '<td class="price">' + editable("product-" + item.no + "-priceB", item.priceB ? money(item.priceB).replace(/<[^>]+>/g,"") : "—") + '</td>' +
-         '</tr>';
+       if (pending.length) groups.unshift({ asset:section.hero, items:pending });
+       return groups;
+     }
+     function groupTitle(group) {
+       const categories = [];
+       group.items.forEach(function(item) {
+         if (item.category && !categories.includes(item.category)) categories.push(item.category);
+       });
+       return categories.slice(0, 2).join(" / ") || "GENERAL FITTINGS";
+     }
+     function cardRows(group, cardId) {
+       const visibleItems = group.items.slice(0, 4);
+       const rows = visibleItems.map(function(item) {
+         const price = item.priceB || item.priceA;
+         return '<div class="table-row">' +
+           '<span>' + editable(cardId + "-" + item.no + "-no", String(item.no)) + '</span>' +
+           '<span>' + editable(cardId + "-" + item.no + "-name", item.category) + '</span>' +
+           '<span>' + editable(cardId + "-" + item.no + "-size", item.size) + '</span>' +
+           '<span>' + editable(cardId + "-" + item.no + "-price", price ? money(price).replace(/<[^>]+>/g, "") : "—") + '</span>' +
+         '</div>';
        }).join("");
-       const slide = addSlide("catalog-slide",
-         brandMark() +
-         '<div class="eyebrow reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-eyebrow", "БҮЛЭГ " + section.id + " · GENERAL FITTINGS") + '</div>' +
-         '<img class="atmosphere" src="' + aiAssetPath(({"01":"fittings-flow.png","02":"heating-manifold.png","03":"pex-pipes.png","04":"tools-workshop.png"}[section.id])) + '" alt="" />' +
-         '<div class="topline"></div>' +
-         '<h2 class="reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-title", title) + '</h2>' +
-         '<div class="range reveal">' + editable("catalog-" + section.id + "-" + chunkIndex + "-range", "Бүтээгдэхүүн № " + items[0].no + " — " + items[items.length-1].no) + '</div>' +
-         '<div class="thumb-strip">' + thumbs.join("") + '</div>' +
-         '<div class="table-wrap reveal"><table class="catalog-table"><colgroup><col class="no"><col class="product"><col class="code"><col class="size"><col class="price"><col class="price"></colgroup><thead><tr><th>дд</th><th>Бүтээгдэхүүн</th><th>Код</th><th>Хэмжээ</th><th>Үнэ /НӨАТ багтсан/</th><th>Үнэ, ₮ /НӨАТ багтсан/</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-         '<div class="footer-note">' + editable("catalog-" + section.id + "-" + chunkIndex + "-footer", "ВИНТЕХ ХХК · Албан ёсны борлуулагч") + '</div>' +
+       return '<div class="table-row"><span>№</span><span>Бүтээгдэхүүний нэр</span><span>Хэмжээ</span><span>Үнэ, ₮</span></div>' + rows;
+     }
+     function productCard(group, cardIndex, slideIndex, section) {
+       const cardId = "card-" + section.id + "-" + slideIndex + "-" + cardIndex;
+       const remaining = group.items.length - Math.min(group.items.length, 4);
+       return '<article class="product-card">' +
+         '<div class="product-card-header"><span class="product-card-number">' + String(cardIndex + 1).padStart(2, "0") + '</span><h3 class="product-card-title">' + editable(cardId + "-title", groupTitle(group)) + '</h3></div>' +
+         '<div class="product-card-media"><img src="' + catalogAssetPath(group.asset) + '" alt="' + escapeHTML(groupTitle(group)) + '" /></div>' +
+         '<div class="product-card-table">' + cardRows(group, cardId) + '</div>' +
+         (remaining > 0 ? '<div class="product-card-more">+ ' + remaining + ' бүтээгдэхүүн</div>' : '') +
+       '</article>';
+     }
+     function cardSlide(section, groups, chunkIndex) {
+       const firstNo = groups[0].items[0].no;
+       const lastGroup = groups[groups.length - 1];
+       const lastNo = lastGroup.items[lastGroup.items.length - 1].no;
+       const cards = groups.map(function(group, i) { return productCard(group, i, chunkIndex, section); }).join("");
+       const slide = addSlide("card-catalog-slide",
+         '<div class="card-brand"><img src="assets/general-fittings-logo.png" alt="General Fittings" /></div>' +
+         '<div class="card-header-rule"></div>' +
+         '<div class="card-eyebrow reveal">' + editable("card-catalog-" + section.id + "-" + chunkIndex + "-eyebrow", "БҮЛЭГ " + section.id + " · GENERAL FITTINGS") + '</div>' +
+         '<h2 class="card-title reveal">' + editable("card-catalog-" + section.id + "-" + chunkIndex + "-title", section.title) + '</h2>' +
+         '<p class="card-subtitle reveal">' + editable("card-catalog-" + section.id + "-" + chunkIndex + "-subtitle", section.subtitle) + '</p>' +
+         '<div class="card-range reveal">' + editable("card-catalog-" + section.id + "-" + chunkIndex + "-range", "Бүтээгдэхүүн № " + firstNo + " — " + lastNo) + '</div>' +
+         '<div class="value-rail">' +
+           '<div class="value-item"><span class="value-icon">✓</span><span>Найдвартай<br>чанар</span></div>' +
+           '<div class="value-item"><span class="value-icon">⚙</span><span>Төрөл бүрийн<br>хэмжээ</span></div>' +
+           '<div class="value-item"><span class="value-icon">◎</span><span>Мэргэжлийн<br>шийдэл</span></div>' +
+           '<div class="value-item"><span class="value-icon">⌁</span><span>Үйлчилгээний<br>дэмжлэг</span></div>' +
+         '</div>' +
+         '<div class="card-grid">' + cards + '</div>' +
+         '<div class="card-footer">' + editable("card-catalog-" + section.id + "-" + chunkIndex + "-footer", "ВИНТЕХ ХХК · Албан ёсны борлуулагч") + '</div>' +
          pageMark()
        );
        slide.dataset.sectionId = section.id;
@@ -584,9 +661,9 @@
      }
      CONTEXT.sections.forEach(function(section) {
        sectionDivider(section);
-       const items = sectionProducts(section);
-      const chunkSize = 10;
-       for (let i = 0; i < items.length; i += chunkSize) tableSlide(section, items.slice(i, i + chunkSize), Math.floor(i / chunkSize) + 1);
+       const groups = imageGroups(section);
+       const chunkSize = 4;
+       for (let i = 0; i < groups.length; i += chunkSize) cardSlide(section, groups.slice(i, i + chunkSize), Math.floor(i / chunkSize) + 1);
      });
  
      /* === CONTACT / CLOSING === */
