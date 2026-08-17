@@ -377,14 +377,17 @@
      }
      .card-catalog-slide .product-card-media img { width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; }
      .card-catalog-slide .product-card-table {
-       position:absolute; left:39.5%; right:18px; top:66px; bottom:18px; overflow:hidden; border:1px solid rgba(16,18,20,.12); border-radius:10px;
-       background:#fff; font:600 14px/1.1 var(--font-body);
+       position:absolute; left:39.5%; right:18px; top:66px; bottom:18px; overflow-x:hidden; overflow-y:auto; border:1px solid rgba(16,18,20,.12); border-radius:10px;
+       background:#fff; font:600 14px/1.1 var(--font-body); scrollbar-width:thin; scrollbar-color:rgba(202,30,38,.65) rgba(16,18,20,.06);
      }
+     .card-catalog-slide .product-card-table::-webkit-scrollbar { width:7px; }
+     .card-catalog-slide .product-card-table::-webkit-scrollbar-track { background:rgba(16,18,20,.05); }
+     .card-catalog-slide .product-card-table::-webkit-scrollbar-thumb { background:rgba(202,30,38,.65); border:2px solid #fff; border-radius:99px; }
      .card-catalog-slide .product-card-table .table-row {
        display:grid; grid-template-columns:68px minmax(0,1.25fr) 120px 132px; min-height:35px; align-items:center;
        border-top:1px solid rgba(16,18,20,.1);
      }
-     .card-catalog-slide .product-card-table .table-row:first-child { border-top:0; background:var(--ink); color:#fff; font-weight:800; }
+     .card-catalog-slide .product-card-table .table-row:first-child { position:sticky; top:0; z-index:2; border-top:0; background:var(--ink); color:#fff; font-weight:800; box-shadow:0 2px 7px rgba(16,18,20,.18); }
      .card-catalog-slide .product-card-table .table-row:nth-child(odd):not(:first-child) { background:rgba(20,135,201,.06); }
      .card-catalog-slide .product-card-table span { overflow:hidden; padding:0 9px; text-overflow:ellipsis; white-space:nowrap; }
      .card-catalog-slide .product-card-table span:first-child { color:var(--red); font:800 16px/1 var(--font-display); }
@@ -392,9 +395,6 @@
      .card-catalog-slide .product-card-table .table-row:first-child span:first-child { color:#fff; }
      .card-catalog-slide .product-card-table span:last-child { color:var(--red); font-weight:800; text-align:right; }
      .card-catalog-slide .product-card-table .table-row:first-child span:last-child { color:#fff; }
-     .card-catalog-slide .product-card-more {
-       position:absolute; right:26px; bottom:24px; color:var(--muted); font:700 12px/1 var(--font-body); letter-spacing:.4px; z-index:4;
-     }
      .card-catalog-slide .card-footer {
        left:64px; bottom:32px; color:var(--muted); font:600 16px/1 var(--font-body); letter-spacing:.7px; z-index:3;
      }
@@ -612,8 +612,7 @@
        return categories.slice(0, 2).join(" / ") || "GENERAL FITTINGS";
      }
      function cardRows(group, cardId) {
-       const visibleItems = group.items.slice(0, 4);
-       const rows = visibleItems.map(function(item) {
+       const rows = group.items.map(function(item) {
          const price = item.priceB || item.priceA;
          return '<div class="table-row">' +
            '<span>' + editable(cardId + "-" + item.no + "-no", String(item.no)) + '</span>' +
@@ -626,12 +625,10 @@
      }
      function productCard(group, cardIndex, slideIndex, section) {
        const cardId = "card-" + section.id + "-" + slideIndex + "-" + cardIndex;
-       const remaining = group.items.length - Math.min(group.items.length, 4);
        return '<article class="product-card">' +
          '<div class="product-card-header"><span class="product-card-number">' + String(cardIndex + 1).padStart(2, "0") + '</span><h3 class="product-card-title">' + editable(cardId + "-title", groupTitle(group)) + '</h3></div>' +
          '<div class="product-card-media"><img src="' + catalogAssetPath(group.asset) + '" alt="' + escapeHTML(groupTitle(group)) + '" /></div>' +
          '<div class="product-card-table">' + cardRows(group, cardId) + '</div>' +
-         (remaining > 0 ? '<div class="product-card-more">+ ' + remaining + ' бүтээгдэхүүн</div>' : '') +
        '</article>';
      }
      function cardSlide(section, groups, chunkIndex) {
