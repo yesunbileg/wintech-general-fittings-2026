@@ -214,6 +214,9 @@
        right:0; top:0; width:670px; height:100%; background:var(--red);
        clip-path:polygon(21% 0,100% 0,100% 100%,0 100%); z-index:1;
      }
+     .cover .red-field,
+     .section-slide .red-field,
+     .contact .red-field { display:none; }
      .cover .atmosphere {
        left:0; top:0; width:100%; height:100%; object-fit:cover; opacity:.38;
        filter:saturate(1.12) contrast(1.06); mix-blend-mode:multiply; z-index:0;
@@ -300,12 +303,16 @@
        left:96px; bottom:88px; color:var(--ink); font:700 17px/1 var(--font-body);
        letter-spacing:1px; z-index:2;
      }
+     /* Clean hero media: preserve the product, remove the presentation frame. */
      .section-slide .hero-card {
-       right:82px; top:282px; width:548px; height:424px; background:#fff; z-index:2;
-       border:1px solid rgba(16,18,20,.18); box-shadow:22px 24px 0 var(--blue); transform:rotate(-2deg);
-       display:flex; align-items:center; justify-content:center; padding:42px;
+       left:112px; top:570px; width:500px; height:280px; background:transparent; z-index:2;
+       border:0; box-shadow:none; transform:none;
+       display:flex; align-items:center; justify-content:center; padding:0;
      }
-     .section-slide .hero-card img { width:100%; height:100%; object-fit:contain; }
+     .section-slide .hero-card img {
+       width:100%; height:100%; object-fit:contain;
+       mix-blend-mode:multiply; filter:drop-shadow(0 14px 18px rgba(16,18,20,.16));
+     }
      .section-slide .rail {
        right:120px; bottom:118px; color:#fff; font:700 16px/1 var(--font-body);
        letter-spacing:3px; z-index:2;
@@ -441,6 +448,15 @@
      function assetPath(name) {
        return "assets/source-media/" + name;
      }
+     const heroAssetOverrides = {
+       "image4.jpeg":"assets/clean-media/section-hero-01.png",
+       "image92.png":"assets/clean-media/section-hero-02.png",
+       "image72.jpeg":"assets/clean-media/section-hero-03.png",
+       "image74.png":"assets/clean-media/section-hero-04.png"
+     };
+     function heroAssetPath(name) {
+       return heroAssetOverrides[name] || assetPath(name);
+     }
      function aiAssetPath(name) {
        return "assets/ai-media/" + name;
      }
@@ -484,7 +500,7 @@
        '<h1 class="reveal">' + editable("cover-title","GENERAL FITTINGS.") + '</h1>' +
        '<p class="subtitle reveal">' + editable("cover-subtitle",CONTEXT.meta.subtitle) + '</p>' +
        '<p class="meta reveal">' + editable("cover-meta",CONTEXT.meta.distributor + " · Улаанбаатар") + '</p>' +
-       '<img class="hero-image reveal" src="' + assetPath("image4.jpeg") + '" alt="General Fittings product" />' +
+       '<img class="hero-image reveal" src="' + heroAssetPath("image4.jpeg") + '" alt="General Fittings product" />' +
        '<div class="hero-label reveal">PRODUCTS · 2026 / 2</div>' +
        '<div class="italy-mark reveal">ITALIAN FITTINGS / 2026</div>' +
        pageMark()
@@ -527,7 +543,7 @@
          '<h2 class="reveal">' + editable("section-" + section.id + "-title",section.title) + '</h2>' +
          '<p class="section-subtitle reveal">' + editable("section-" + section.id + "-subtitle",section.subtitle) + '</p>' +
          '<div class="section-count reveal">' + editable("section-" + section.id + "-count","БҮТЭЭГДЭХҮҮН № " + items[0].no + " — " + items[items.length-1].no) + '</div>' +
-         '<div class="hero-card reveal"><img src="' + assetPath(section.hero) + '" alt="' + escapeHTML(section.title) + '" /></div>' +
+         '<div class="hero-card reveal"><img src="' + heroAssetPath(section.hero) + '" alt="' + escapeHTML(section.title) + '" /></div>' +
          '<div class="rail">GENERAL FITTINGS · 2026</div>' +
          pageMark()
        );
