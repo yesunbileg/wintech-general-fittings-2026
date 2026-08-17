@@ -694,6 +694,7 @@
          this.setupStageScale();
          this.setupKeyboardNav();
          this.setupTouchNav();
+         this.setupMobileTapNav();
          this.setupWheelNav();
          this.setupButtons();
          this.showSlide(0);
@@ -727,6 +728,13 @@
            const t = event.changedTouches[0]; const dx = t.clientX - startX; const dy = t.clientY - startY;
            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) dx < 0 ? this.next() : this.prev();
          }, {passive:true});
+       }
+       setupMobileTapNav() {
+         this.stage.addEventListener("click", (event) => {
+           if (!window.matchMedia("(max-width: 900px), (pointer: coarse)").matches) return;
+           if (event.target.closest("button, a, input, select, textarea, [contenteditable='true'], .product-card-table")) return;
+           this.next();
+         });
        }
        setupWheelNav() {
          this.stage.addEventListener("wheel", (event) => {
