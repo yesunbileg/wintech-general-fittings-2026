@@ -230,6 +230,20 @@
        background:transparent; border-radius:0; filter:drop-shadow(0 10px 12px rgba(0,0,0,.18));
        pointer-events:none; z-index:3;
      }
+     .cover .cover-italy-lockup {
+       left:710px; top:63px; width:132px; height:94px; text-align:center;
+       pointer-events:none; z-index:3;
+     }
+     .cover .cover-italy-lockup img {
+       display:block; width:116px; height:72px; margin:0 auto 8px;
+       object-fit:cover; border:2px solid rgba(255,255,255,.86);
+       box-shadow:0 8px 18px rgba(0,0,0,.18);
+     }
+     .cover .cover-italy-lockup span {
+       display:block; color:rgba(255,255,255,.9);
+       font:700 11px/1 var(--font-body); letter-spacing:1.8px;
+       text-transform:uppercase; white-space:nowrap;
+     }
      .cover .eyebrow {
        top:158px; color:#fff; font-size:24px; font-weight:800; letter-spacing:3.5px;
      }
@@ -577,6 +591,7 @@
        '<img class="atmosphere reveal" src="' + aiAssetPath("cover-flow.png") + '" alt="" />' +
        brandMark() +
        '<img class="cover-brand-lockup reveal" src="assets/wintech-logo-transparent.png" alt="Wintech Green Tomorrow" />' +
+       '<div class="cover-italy-lockup reveal"><img src="assets/italy-flag.png" alt="Italy" /><span>ITALY · 2026</span></div>' +
        '<div class="eyebrow reveal">' + editable("cover-eyebrow","ҮНИЙН САНАЛ · 2026 / 2") + '</div>' +
        '<div class="red-rule reveal"></div>' +
        '<h1 class="reveal">' + editable("cover-title","GENERAL FITTINGS.") + '</h1>' +
