@@ -50,7 +50,7 @@ def expand_mask(mask, width, height, radius):
     return bytearray(1 if value else 0 for value in expanded.tobytes())
 
 
-def remove_white_edge(source, target, threshold, chroma, halo):
+def remove_white_edge(source, target, threshold, chroma, halo, crop=False):
     image = Image.open(source).convert("RGBA")
     width, height = image.size
     mask = edge_background(image, threshold, chroma)
@@ -63,6 +63,10 @@ def remove_white_edge(source, target, threshold, chroma, halo):
             red, green, blue, _ = pixels[x, y]
             pixels[x, y] = (red, green, blue, 0)
             removed += 1
+    if crop:
+        alpha_bounds = image.getchannel("A").getbbox()
+        if alpha_bounds:
+            image = image.crop(alpha_bounds)
     target.parent.mkdir(parents=True, exist_ok=True)
     image.save(target, "PNG", optimize=True)
     return removed
@@ -75,8 +79,9 @@ def main():
     parser.add_argument("--threshold", type=int, default=235)
     parser.add_argument("--chroma", type=int, default=30)
     parser.add_argument("--halo", type=int, default=3, help="extra edge pixels to clear")
+    parser.add_argument("--crop", action="store_true", help="crop transparent outer space")
     args = parser.parse_args()
-    removed = remove_white_edge(args.input, args.output, args.threshold, args.chroma, args.halo)
+    removed = remove_white_edge(args.input, args.output, args.threshold, args.chroma, args.halo, args.crop)
     print(f"{args.input} -> {args.output} ({removed} edge pixels removed)")
 
 
