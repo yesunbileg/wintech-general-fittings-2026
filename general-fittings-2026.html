@@ -222,6 +222,10 @@
        filter:saturate(1.12) contrast(1.06); mix-blend-mode:multiply; z-index:0;
      }
      .cover .brand-mark { top:58px; }
+     .cover .wintech-cover-logo {
+       left:430px; top:56px; width:176px; height:74px; padding:8px 12px;
+       object-fit:contain; background:#fff; border-radius:8px; box-shadow:0 12px 24px rgba(0,0,0,.18); z-index:3;
+     }
      .cover .eyebrow {
        top:158px; color:#fff; font-size:24px; font-weight:800; letter-spacing:3.5px;
      }
@@ -258,6 +262,10 @@
      .overview h2, .contact h2 {
        left:84px; top:252px; color:var(--ink);
        font:800 82px/.92 var(--font-display); letter-spacing:-3px; z-index:2;
+     }
+     .overview .wintech-overview-logo {
+       right:90px; top:58px; width:286px; height:88px; padding:10px 18px;
+       object-fit:contain; background:#fff; border:1px solid var(--rule); border-radius:10px; z-index:3;
      }
      .overview .lead {
        left:90px; top:356px; width:680px; color:var(--muted);
@@ -568,6 +576,7 @@
        '<div class="red-field"></div>' +
        '<img class="atmosphere reveal" src="' + aiAssetPath("cover-flow.png") + '" alt="" />' +
        brandMark() +
+       '<img class="wintech-cover-logo reveal" src="assets/source-media/image1.jpeg" alt="Wintech Green Tomorrow" />' +
        '<img class="cover-italy-flag reveal" src="assets/italy-flag.png" alt="Italy flag" />' +
        '<div class="eyebrow reveal">' + editable("cover-eyebrow","ҮНИЙН САНАЛ · 2026 / 2") + '</div>' +
        '<div class="red-rule reveal"></div>' +
@@ -591,8 +600,9 @@
      }).join("");
      addSlide("overview",
        brandMark() +
+       '<img class="wintech-overview-logo reveal" src="assets/source-media/image1.jpeg" alt="Wintech Green Tomorrow" />' +
        '<div class="eyebrow reveal">' + editable("overview-eyebrow","БҮТЭЭГДЭХҮҮНИЙ БҮЛЭГ") + '</div>' +
-       '<h2 class="reveal">' + editable("overview-title","БҮТЭЭГДЭХҮҮН<br>2026 / 2") + '</h2>' +
+       '<h2 class="reveal">' + editable("overview-title-label","БҮТЭЭГДЭХҮҮН") + '<br>' + editable("overview-year","2026 / 2") + '</h2>' +
        '<p class="lead reveal">' + editable("overview-lead","General Fittings брэндийн сантехникийн хоолой, холбох хэрэгсэл, багажийн үнийн санал.") + '</p>' +
        '<div class="stat reveal"><strong>' + CONTEXT.meta.productCount + '</strong><span>БҮТЭЭГДЭХҮҮНИЙ МӨР</span></div>' +
        '<div class="group-grid">' + groupCards + '</div>' +
