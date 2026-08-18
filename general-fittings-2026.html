@@ -226,7 +226,7 @@
        top:158px; color:#fff; font-size:24px; font-weight:800; letter-spacing:3.5px;
      }
      .cover .cover-italy-flag {
-       right:86px; top:64px; width:192px; height:118px; object-fit:cover;
+       left:640px; top:64px; width:192px; height:118px; object-fit:cover;
        border:8px solid rgba(255,255,255,.94); box-shadow:0 14px 30px rgba(0,0,0,.2); z-index:3;
      }
      .cover h1 {
@@ -250,7 +250,7 @@
        font:700 23px/1.16 var(--font-body); z-index:2;
      }
      .cover .italy-mark {
-       right:112px; top:120px; color:#fff; writing-mode:vertical-rl; transform:rotate(180deg);
+       left:852px; top:74px; color:#fff; writing-mode:vertical-rl; transform:rotate(180deg);
        font:700 16px/1 var(--font-body); letter-spacing:3px; z-index:2;
      }
  
@@ -526,6 +526,8 @@
        return heroAssetOverrides[name] || assetPath(name);
      }
      function catalogAssetPath(name) {
+       /* Catalog cards use the workbook crop itself; section heroes may use cleaned variants. */
+       if (name === "image4.jpeg") return assetPath(name);
        return heroAssetOverrides[name] ? heroAssetPath(name) : assetPath(name);
      }
      function aiAssetPath(name) {
