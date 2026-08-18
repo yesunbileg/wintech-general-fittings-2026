@@ -226,8 +226,9 @@
      }
      .cover .brand-mark img { width:292px; }
      .cover .cover-brand-lockup {
-       left:460px; top:54px; width:430px; height:138px; object-fit:contain;
-       background:#fff; border-radius:8px; box-shadow:0 12px 24px rgba(0,0,0,.18); z-index:3;
+       left:460px; top:55px; width:220px; height:102px; object-fit:contain;
+       background:transparent; border-radius:0; filter:drop-shadow(0 10px 12px rgba(0,0,0,.18));
+       pointer-events:none; z-index:3;
      }
      .cover .eyebrow {
        top:158px; color:#fff; font-size:24px; font-weight:800; letter-spacing:3.5px;
@@ -575,14 +576,13 @@
        '<div class="red-field"></div>' +
        '<img class="atmosphere reveal" src="' + aiAssetPath("cover-flow.png") + '" alt="" />' +
        brandMark() +
-       '<img class="cover-brand-lockup reveal" src="assets/italy-wintech-lockup.png" alt="Italy flag and Wintech Green Tomorrow" />' +
+       '<img class="cover-brand-lockup reveal" src="assets/wintech-logo-transparent.png" alt="Wintech Green Tomorrow" />' +
        '<div class="eyebrow reveal">' + editable("cover-eyebrow","ҮНИЙН САНАЛ · 2026 / 2") + '</div>' +
        '<div class="red-rule reveal"></div>' +
        '<h1 class="reveal">' + editable("cover-title","GENERAL FITTINGS.") + '</h1>' +
        '<p class="subtitle reveal">' + editable("cover-subtitle",CONTEXT.meta.subtitle) + '</p>' +
        '<p class="meta reveal">' + editable("cover-meta",CONTEXT.meta.distributor + " · GENERAL FITTINGS-ИЙН АЛБАН ЁСНЫ БОРЛУУЛАГЧ · УЛААНБААТАР") + '</p>' +
        '<div class="hero-label reveal">PRODUCTS · 2026 / 2</div>' +
-       '<div class="italy-mark reveal">ITALIAN FITTINGS / 2026</div>' +
        pageMark()
      );
  
